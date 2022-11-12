@@ -1,9 +1,11 @@
 import React from "react";
 
-const Service = ({ service }) => {
-  const { img, name, description } = service;
+const InfoCard = ({ service }) => {
+
+  const { img, name, description,bgClass } = service;
+
   return (
-    <div className="card card-side bg-base-100 shadow-xl">
+    <div className={`card md:card-side bg-base-100 p-5 text-white shadow-xl ${bgClass}`}>
       <figure>
         <img src={img} alt="Movie" />
       </figure>
@@ -15,4 +17,4 @@ const Service = ({ service }) => {
   );
 };
 
-export default Service;
+export default InfoCard;
