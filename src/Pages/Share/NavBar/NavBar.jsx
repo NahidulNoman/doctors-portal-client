@@ -5,7 +5,7 @@ const NavBar = () => {
   const menuItems = (
     <>
       <li>
-        <Link>Home</Link>
+        <Link to='/home'>Home</Link>
       </li>
       <li>
         <Link>About</Link>
@@ -26,7 +26,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 flex justify-between">
+    <div className="navbar bg-base-200 rounded-lg flex justify-between">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -52,7 +52,7 @@ const NavBar = () => {
             {menuItems}
           </ul>
         </div>
-        <Link className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
+        <Link to='/' className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>
