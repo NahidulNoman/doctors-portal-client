@@ -11,7 +11,7 @@ const ContactUs = () => {
         <div className="hero"></div>
         <div className="hero-content text-center text-white">
           <div className="max-w-md">
-            <h4 className="text-center text-primary">Contact Us</h4>
+            <h4 className="text-center text-primary font-bold">Contact Us</h4>
             <h1 className="mb-5 lg:text-4xl sm:text-3xl font-bold">
               Stay connected with us
             </h1>
