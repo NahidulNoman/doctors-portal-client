@@ -4,29 +4,29 @@ import { Link } from "react-router-dom";
 const NavBar = () => {
   const menuItems = (
     <>
-      <li>
+      <li className="font-semibold">
         <Link to='/home'>Home</Link>
       </li>
-      <li>
-        <Link to='/about'>About</Link>
-      </li>
-      <li>
+      <li className="font-semibold">
         <Link to='/appointment'>Appointment</Link>
       </li>
-      <li>
+      <li className="font-semibold">
+        <Link to='/about'>About</Link>
+      </li>
+      <li className="font-semibold">
         <Link to='/reviews'>Reviews</Link>
       </li>
-      <li>
+      <li className="font-semibold">
         <Link>Contact Us</Link>
       </li>
-      <li>
+      <li className="font-semibold">
         <Link to='/login'>Login</Link>
       </li>
     </>
   );
 
   return (
-    <div className="navbar bg-base-200 rounded-lg flex justify-between">
+    <div className="navbar bg-light-100 rounded-lg flex justify-between">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
