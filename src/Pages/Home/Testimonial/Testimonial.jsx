@@ -48,7 +48,7 @@ const Testimonial = () => {
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-20">
             {
                 reviews.map(perReview => <Reviews
-                    key={perReview.id}
+                    key={perReview._id}
                     perReview={perReview}
                 ></Reviews>)
             }
