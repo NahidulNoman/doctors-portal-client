@@ -1,23 +1,36 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../UserContext/UserContext";
 
 const SignUp = () => {
     const {register,handleSubmit,formState:{errors}} = useForm();
-    const {createUser} = useContext(AuthContext);
+    const {createUser,signUpGoogle} = useContext(AuthContext);
 
     const handlerSingUp = data => {
         console.log(data);
         createUser(data.email, data.password)
         .then(result => {
             const user = result.user;
+            toast.success('sign up successfully !!')
             console.log(user);
         })
         .catch(error => {
             console.log(error)
         })
-    }
+    };
+
+    const handlerGoogle = () => {
+        signUpGoogle()
+        .then(result => {
+            const user = result.user;
+            console.log(user)
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    };
 
   return (
     <div className="flex justify-center items-center mx-5 mt-10">
@@ -83,10 +96,10 @@ const SignUp = () => {
           <input className='btn btn-accent w-full mt-4' value="Sign up" type="submit" />
           <p className="text-sm text-center mt-4">Have an Account <Link to='/login' className="text-secondary">Please Log In ?</Link></p>
           <div className="divider">OR</div>
-          <button className="btn btn-outline w-full">
+        </form>
+          <button onClick={handlerGoogle} className="btn btn-outline w-full">
             CONTINUE WITH GOOGLE
           </button>
-        </form>
       </div>
     </div>
   );

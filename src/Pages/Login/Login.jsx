@@ -1,23 +1,39 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../UserContext/UserContext";
 
 const Login = () => {
+    const {logInUser,signUpGoogle} = useContext(AuthContext);
     const {register,handleSubmit, formState:{errors}} = useForm();
-    const {logInUser} = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location.state?.from?.pathname || '/'
 
     const handlerLogin = (data) => {
         console.log(data);
         logInUser(data.email,data.password)
         .then(result => {
             const user = result.user;
+            navigate(from , {replace: true});
             console.log(user);
         })
         .catch(error => {
             console.log(error)
         })
     }
+
+    const handlerGoogle = () => {
+        signUpGoogle()
+        .then(result => {
+            const user = result.user;
+            console.log(user)
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    };
 
   return (
     <div className="flex justify-center items-center mt-10 mx-5">
@@ -70,10 +86,10 @@ const Login = () => {
             </Link>
           </p>
           <div className="divider">OR</div>
-          <button className="btn btn-outline w-full">
+        </form>
+          <button onClick={handlerGoogle} className="btn btn-outline w-full">
             CONTINUE WITH GOOGLE
           </button>
-        </form>
       </div>
     </div>
   );
