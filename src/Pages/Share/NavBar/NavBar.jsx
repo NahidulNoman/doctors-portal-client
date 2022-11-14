@@ -3,33 +3,50 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../UserContext/UserContext";
 
 const NavBar = () => {
-  const {user} = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handlerOut = () => {
+    logOut();
+  };
 
   const menuItems = (
     <>
       <li className="font-semibold ">
-        <Link to='/home' className="rounded-lg">Home</Link>
+        <Link to="/home" className="rounded-lg">
+          Home
+        </Link>
       </li>
       <li className="font-semibold">
-        <Link to='/appointment' className="rounded-lg">Appointment</Link>
+        <Link to="/appointment" className="rounded-lg">
+          Appointment
+        </Link>
       </li>
       <li className="font-semibold">
-        <Link to='/about' className="rounded-lg">About</Link>
+        <Link to="/about" className="rounded-lg">
+          About
+        </Link>
       </li>
       <li className="font-semibold">
-        <Link to='/reviews' className="rounded-lg">Reviews</Link>
+        <Link to="/reviews" className="rounded-lg">
+          Reviews
+        </Link>
       </li>
       <li className="font-semibold">
         <Link className="rounded-lg">Contact Us</Link>
       </li>
-      {
-        user?.uid ? <li className="font-semibold">
-        <Link to='/login' className="rounded-lg">Log Out</Link>
-      </li> :
-      <li className="font-semibold">
-      <Link to='/login' className="rounded-lg">Login</Link>
-    </li>
-      }
+      {user?.email ? (
+        <li onClick={handlerOut} className="font-semibold">
+          <Link to="/login" className="rounded-lg">
+            LogOut
+          </Link>
+        </li>
+      ) : (
+        <li className="font-semibold">
+          <Link to="/login" className="rounded-lg">
+            Login
+          </Link>
+        </li>
+      )}
     </>
   );
 
@@ -60,7 +77,9 @@ const NavBar = () => {
             {menuItems}
           </ul>
         </div>
-        <Link to='/' className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
+        <Link to="/" className="btn btn-ghost normal-case text-xl">
+          Doctors Portal
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>

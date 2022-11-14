@@ -6,15 +6,22 @@ import { AuthContext } from "../../UserContext/UserContext";
 
 const SignUp = () => {
     const {register,handleSubmit,formState:{errors}} = useForm();
-    const {createUser,signUpGoogle} = useContext(AuthContext);
+    const {createUser,signUpGoogle,updateUser} = useContext(AuthContext);
 
     const handlerSingUp = data => {
         console.log(data);
         createUser(data.email, data.password)
         .then(result => {
             const user = result.user;
-            toast.success('sign up successfully !!')
             console.log(user);
+            toast.success('sign up successfully !!');
+            const profile = {
+              displayName : data.name
+            };
+            updateUser(profile)
+            .then(()=>{})
+            .catch(error => console.log(error))
+            
         })
         .catch(error => {
             console.log(error)
