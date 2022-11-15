@@ -1,18 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../UserContext/UserContext";
 
 const Login = () => {
-    const {logInUser,signUpGoogle} = useContext(AuthContext);
+    const {logInUser,signUpGoogle,resetPassword} = useContext(AuthContext);
     const {register,handleSubmit, formState:{errors}} = useForm();
     const location = useLocation();
     const navigate = useNavigate();
+    const [email , setEmail] = useState('');
 
     const from = location.state?.from?.pathname || '/'
 
+    console.log(email)
+
     const handlerLogin = (data) => {
         console.log(data);
+        // setEmail(data.email);
         logInUser(data.email,data.password)
         .then(result => {
             const user = result.user;
@@ -22,7 +26,7 @@ const Login = () => {
         .catch(error => {
             console.log(error)
         })
-    }
+    };
 
     const handlerGoogle = () => {
         signUpGoogle()
@@ -34,6 +38,15 @@ const Login = () => {
             console.log(error);
         })
     };
+    
+
+    const handlerResetPassword = () => {
+      resetPassword(email)
+      .then(()=>{
+        alert('check your email.')
+      })
+      .catch(error => console.log(error))
+    }
 
   return (
     <div className="flex justify-center items-center mt-10 mx-5">
@@ -49,8 +62,10 @@ const Login = () => {
               type="email"
               required
               {...register('email', {
-                required : 'email is required'
-              })}
+                required : 'email is required',
+                onBlur : (e)=>setEmail(e.target.value),
+              },
+              )}
               placeholder="Email address"
               className="input input-bordered w-full"
             />{" "}
@@ -76,7 +91,7 @@ const Login = () => {
             }
           </div>
           <label className="label">
-              <span className="label-text text-sm ">Forgot Password ?</span>
+              <span className="label-text text-sm" onClick={handlerResetPassword}>Forgot Password ?</span>
             </label>
           <input className='btn btn-accent w-full' value="Login" type="submit" />
           <p className="text-sm text-center mt-3">
