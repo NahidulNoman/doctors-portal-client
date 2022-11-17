@@ -1,15 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useToken from "../../hooks/useToken";
 import { AuthContext } from "../../UserContext/UserContext";
 
 const SignUp = () => {
     const {register,handleSubmit,formState:{errors}} = useForm();
     const {createUser,signUpGoogle,updateUser} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [createEmail , setCreateEmail] = useState('');
+    const [token] = useToken(createEmail);
+
+    if(token) {
+      navigate('/');
+    }
 
     const handlerSingUp = data => {
-        console.log(data);
         createUser(data.email, data.password)
         .then(result => {
             const user = result.user;
@@ -19,15 +26,49 @@ const SignUp = () => {
               displayName : data.name
             };
             updateUser(profile)
-            .then(()=>{})
+            .then(()=>{
+              saveUserDB(data.name, data.email);
+            })
             .catch(error => console.log(error))
-            
         })
         .catch(error => {
             console.log(error)
         })
     };
 
+    // post from signUp to database
+    const saveUserDB = (name,email)=> {
+      const userDB = {name , email};
+      console.log('userDB',userDB)
+      fetch('http://localhost:5000/users', {
+        method : 'POST',
+        headers : {
+          'content-type' : 'application/json'
+        },
+        body : JSON.stringify(userDB)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.acknowledged){
+          // getUserToken(email);
+          setCreateEmail(email);
+        }
+      })
+    };
+
+    // get access token
+    // const getUserToken = email => {
+    //   fetch(`http://localhost:5000/jwt?email=${email}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     if(data.accessToken){
+    //       localStorage.setItem('accessToken', data.accessToken);
+    //       navigate('/');
+    //     }
+    //   })
+    // }
+
+    // google sign in 
     const handlerGoogle = () => {
         signUpGoogle()
         .then(result => {
