@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { format } from "date-fns";
+import { AuthContext } from "../../../UserContext/UserContext";
+import toast from "react-hot-toast";
 
-const BookedAppointment = ({ treatment, selected ,setTreatment}) => {
+const BookedAppointment = ({ treatment, selected ,setTreatment, refetch}) => {
     const {name , slots} = treatment;
   const date = format(selected, "PP");
+  const {user} = useContext(AuthContext);
 
     const handlerBooking = (e) => {
         e.preventDefault();
@@ -20,15 +23,34 @@ const BookedAppointment = ({ treatment, selected ,setTreatment}) => {
             phone,
             email,
             slot
-        }
+        };
 
         //  TODO: send data to the server
         // and once data is saved then close the modal 
         // and display success toast
 
-        console.log(booking)
-        setTreatment(null);
-        form.reset();
+        fetch('http://localhost:5000/bookings', {
+          method : 'POST',
+          headers : {
+            'content-type': 'application/json'
+          },
+          body : JSON.stringify(booking)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if(data.acknowledged){
+            setTreatment(null);
+            form.reset();
+            toast.success('submit confirmed');
+            refetch();
+          }
+          else{
+            toast.error(data.message)
+          }
+        })
+
+        // console.log(booking)
+        
     }
 
 
@@ -64,21 +86,26 @@ const BookedAppointment = ({ treatment, selected ,setTreatment}) => {
             <input
               type="text"
               name="name"
+              disabled
+              defaultValue={user?.displayName}
               placeholder="your name"
-              className="input input-bordered input-accent w-full mb-3"
-            />{" "}
-            <br />
-            <input
-              type="phone"
-              name="phone"
-              placeholder="phone number"
               className="input input-bordered input-accent w-full mb-3"
             />{" "}
             <br />
             <input
               type="email"
               name="email"
+              disabled
+              defaultValue={user?.email}
               placeholder="email address"
+              className="input input-bordered input-accent w-full mb-3"
+            />{" "}
+            <br />
+            
+            <input
+              type="phone"
+              name="phone"
+              placeholder="phone number"
               className="input input-bordered input-accent w-full mb-3"
             />{" "}
             <br />

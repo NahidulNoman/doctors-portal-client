@@ -1,17 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { format } from "date-fns";
 import AppointmentOptions from "../AppointmentOptions/AppointmentOptions";
 import BookedAppointment from "../BookedAppointment/BookedAppointment";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../Share/Loading/Loading";
 
 const AvailableAppointments = ({ selected }) => {
-  const [appointmentOptions, setAppointmentOptions] = useState([]);
+  // const [appointmentOptions, setAppointmentOptions] = useState([]);
   const [treatment, setTreatment] = useState(null);
+  const date = format(selected,'PP');
 
-  useEffect(() => {
-    fetch("appointmentOptions.json")
-      .then((res) => res.json())
-      .then((data) => setAppointmentOptions(data));
-  }, []);
+  const {data:appointmentOptions = [], refetch, isLoading } = useQuery({
+    queryKey : ['appOptions', date],
+    queryFn : () => fetch(`http://localhost:5000/appOptions?date=${date}`)
+    .then(res => res.json())
+  });
+
+  if(isLoading){
+    return <Loading></Loading>
+  }
+  // console.log(appointmentOptions)
+
+
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/appOptions")
+  //     .then((res) => res.json())
+  //     .then((data) => setAppointmentOptions(data));
+  // }, []);
 
   return (
     <div className="lg:mt-32 mt-16">
@@ -32,6 +47,7 @@ const AvailableAppointments = ({ selected }) => {
           treatment={treatment}
           selected={selected}
           setTreatment={setTreatment}
+          refetch={refetch}
         ></BookedAppointment>
       )}
     </div>
