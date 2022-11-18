@@ -24,6 +24,7 @@ const UserContext = ({children}) => {
         return signInWithPopup(auth,googleProvider);
     };
     const logOut = () => {
+        localStorage.removeItem('accessToken');
         return signOut(auth);
     };
     const updateUser = (profile) => {
