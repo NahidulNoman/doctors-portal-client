@@ -1,27 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../UserContext/UserContext";
 
 const MyAppointment = () => {
-    const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-    const url = `http://localhost:5000/bookings?email=${user?.email}`
+  const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
-    console.log(user?.email)
-    const {data: bookings = []} = useQuery({
-        queryKey : [ 'bookings', user?.email],
-        queryFn : async()=> {
-            const res = await fetch(url, {
-              headers : {
-                authorization : `Bearer ${localStorage.getItem('accessToken')}`
-              }
-            });
-            const data = await res.json();
-            return data;
-        }
-    });
-    
-    console.log(bookings)
+  console.log(user?.email);
+  const { data: bookings = [] } = useQuery({
+    queryKey: ["bookings", user?.email],
+    queryFn: async () => {
+      const res = await fetch(url, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      const data = await res.json();
+      return data;
+    },
+  });
+
+  console.log(bookings);
 
   return (
     <div>
@@ -35,18 +36,29 @@ const MyAppointment = () => {
               <th>Treatment</th>
               <th>Date</th>
               <th>Time</th>
+              <th>Payment</th>
             </tr>
           </thead>
           <tbody>
-            {
-                bookings.map((book, i) => <tr key={i}  className="hover">
-                <th>{i+1}</th>
+            {bookings.map((book, i) => (
+              <tr key={i} className="hover">
+                <th>{i + 1}</th>
                 <td>{book.patientName}</td>
                 <td>{book.yourTreatment}</td>
                 <td>{book.appointmentDate}</td>
                 <td>{book.slot}</td>
-              </tr>)
-            }
+                <td>
+                  {book.price && !book.paid && (
+                    <Link to={`/dashboard/payment/${book._id}`}>
+                      <button className="btn btn-primary btn-sm">Pay</button>
+                    </Link>
+                  )}
+                  {book.price && book.paid && (
+                    <span className="text-green-500">Paid</span>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

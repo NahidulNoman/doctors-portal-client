@@ -1,7 +1,7 @@
 import React from "react";
 
 const AppointmentOptions = ({ options,setTreatment }) => {
-  const { slots, name } = options;
+  const { slots, name, price} = options;
   return (
     <div className="card bg-base-100 shadow-xl">
       <div className="card-body text-center">
@@ -10,6 +10,7 @@ const AppointmentOptions = ({ options,setTreatment }) => {
         <p>
           {slots.length} {slots.length > 1 ? "spaces" : "space"} available
         </p>
+        <p>Price : ${price}</p>
         <div className="card-actions justify-center">
           <label
            htmlFor="appointment"

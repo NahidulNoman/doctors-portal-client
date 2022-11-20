@@ -4,7 +4,7 @@ import { AuthContext } from "../../../UserContext/UserContext";
 import toast from "react-hot-toast";
 
 const BookedAppointment = ({ treatment, selected ,setTreatment, refetch}) => {
-    const {name , slots} = treatment;
+    const {name , slots, price} = treatment;
   const date = format(selected, "PP");
   const {user} = useContext(AuthContext);
 
@@ -22,7 +22,8 @@ const BookedAppointment = ({ treatment, selected ,setTreatment, refetch}) => {
             yourTreatment : name,
             phone,
             email,
-            slot
+            slot,
+            price
         };
 
         //  TODO: send data to the server
