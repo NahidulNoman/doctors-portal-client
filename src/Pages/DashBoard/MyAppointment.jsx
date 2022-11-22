@@ -8,7 +8,7 @@ const MyAppointment = () => {
 
   const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
-  console.log(user?.email);
+  // console.log(user?.email);
   const { data: bookings = [] } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
@@ -22,7 +22,7 @@ const MyAppointment = () => {
     },
   });
 
-  console.log(bookings);
+  // console.log(bookings);
 
   return (
     <div>

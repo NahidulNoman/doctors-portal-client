@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import NavBar from "../Pages/Share/NavBar/NavBar";
 import { AuthContext } from "../UserContext/UserContext";
@@ -7,9 +7,10 @@ import { AuthContext } from "../UserContext/UserContext";
 const DashBoardLayout = () => {
   const { user } = useContext(AuthContext);
   const [isAdmin,isAdminLoading] = useAdmin(user?.email);
+  // const navigate = useNavigate();
   
   
-  console.log(isAdmin,isAdminLoading)
+  // console.log(isAdmin,isAdminLoading)
   if(isAdminLoading){
     return <p>loading</p>
   }
