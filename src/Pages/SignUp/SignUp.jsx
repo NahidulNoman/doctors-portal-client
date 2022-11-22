@@ -40,7 +40,7 @@ const SignUp = () => {
     const saveUserDB = (name,email)=> {
       const userDB = {name , email};
       console.log('userDB',userDB)
-      fetch('http://localhost:5000/users', {
+      fetch('https://doctors-portal-server-liart.vercel.app/users', {
         method : 'POST',
         headers : {
           'content-type' : 'application/json'
@@ -58,7 +58,7 @@ const SignUp = () => {
 
     // get access token
     // const getUserToken = email => {
-    //   fetch(`http://localhost:5000/jwt?email=${email}`)
+    //   fetch(`https://doctors-portal-server-liart.vercel.app/jwt?email=${email}`)
     //   .then(res => res.json())
     //   .then(data => {
     //     if(data.accessToken){

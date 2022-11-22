@@ -30,7 +30,7 @@ const BookedAppointment = ({ treatment, selected ,setTreatment, refetch}) => {
         // and once data is saved then close the modal 
         // and display success toast
 
-        fetch('http://localhost:5000/bookings', {
+        fetch('https://doctors-portal-server-liart.vercel.app/bookings', {
           method : 'POST',
           headers : {
             'content-type': 'application/json'

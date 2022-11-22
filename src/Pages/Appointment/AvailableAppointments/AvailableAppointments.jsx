@@ -12,7 +12,7 @@ const AvailableAppointments = ({ selected }) => {
 
   const {data:appointmentOptions = [], refetch, isLoading } = useQuery({
     queryKey : ['appOptions', date],
-    queryFn : () => fetch(`http://localhost:5000/appOptions?date=${date}`)
+    queryFn : () => fetch(`https://doctors-portal-server-liart.vercel.app/appOptions?date=${date}`)
     .then(res => res.json())
   });
 
@@ -23,7 +23,7 @@ const AvailableAppointments = ({ selected }) => {
 
 
   // useEffect(() => {
-  //   fetch("http://localhost:5000/appOptions")
+  //   fetch("https://doctors-portal-server-liart.vercel.app/appOptions")
   //     .then((res) => res.json())
   //     .then((data) => setAppointmentOptions(data));
   // }, []);

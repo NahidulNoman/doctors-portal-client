@@ -14,7 +14,7 @@ const ManageDoctors = () => {
     queryKey: ["doctors"],
     queryFn: async () => {
       try {
-        const res = await fetch("http://localhost:5000/doctors", {
+        const res = await fetch("https://doctors-portal-server-liart.vercel.app/doctors", {
           headers: {
             authorization: `bearer ${localStorage.getItem("accessToken")}`,
           },
@@ -28,7 +28,7 @@ const ManageDoctors = () => {
 
   const handleDeleteDoctor = doctor => {
     // console.log(id);
-    fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+    fetch(`https://doctors-portal-server-liart.vercel.app/doctors/${doctor._id}`, {
         method : 'delete',
         headers : {
             authorization: `bearer ${localStorage.getItem("accessToken")}`

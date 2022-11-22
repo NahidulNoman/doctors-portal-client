@@ -6,13 +6,13 @@ const AllUser = () => {
   const { data: allUser = [] , refetch } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
-      fetch("http://localhost:5000/users").then((res) => res.json()),
+      fetch("https://doctors-portal-server-liart.vercel.app/users").then((res) => res.json()),
   });
 //   console.log(allUser);
 
   // put api from server site
   const handlerMakeAdmin = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://doctors-portal-server-liart.vercel.app/users/${id}`, {
         method : 'PUT'
     })
     .then(res => res.json())
