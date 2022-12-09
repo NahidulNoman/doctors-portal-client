@@ -13,14 +13,17 @@ const CheckoutForm = ({ booking }) => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("https://doctors-portal-server-liart.vercel.app/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${localStorage.getItem("accessToken")}`,
-      },
-      body: JSON.stringify({ price }),
-    })
+    fetch(
+      "https://doctors-portal-server-liart.vercel.app/create-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify({ price }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
   }, [price]);
@@ -66,31 +69,31 @@ const CheckoutForm = ({ booking }) => {
       return;
     }
     if (paymentIntent.status === "succeeded") {
-    //   console.log("card info", card);
-    //   setSuccess('congers! your payment is success.')
-    //   setTransactionId(paymentIntent.id);
+      //   console.log("card info", card);
+      //   setSuccess('congers! your payment is success.')
+      //   setTransactionId(paymentIntent.id);
       const payment = {
         price,
         transactionId: paymentIntent.id,
         email,
-        bookingId: _id
+        bookingId: _id,
       };
-      fetch('https://doctors-portal-server-liart.vercel.app/payment', {
-        method : 'POST',
-        headers : {
-            'content-type':'application/json',
-            authorization: `bearer ${localStorage.getItem("accessToken")}`
+      fetch("https://doctors-portal-server-liart.vercel.app/payment", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
         },
-        body : JSON.stringify(payment)
+        body: JSON.stringify(payment),
       })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.insertedId) {
-            setSuccess('Congrats! your payment completed');
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.insertedId) {
+            setSuccess("Congrats! your payment completed");
             setTransactionId(paymentIntent.id);
-        };
-      })
+          }
+        });
     }
     setProcessing(false);
   };
